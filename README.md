@@ -1,6 +1,7 @@
-Nom :
-Prénom :
-URL Netlify :
+Nom : Benjilali
+Prénom : Mehdy
+URL Netlify :  transcendent-begonia-fdd33f.netlify.app
+
 
 État initial : le bouton 🍔 ne fait rien, et la <nav> s'affiche en permanence sous le bouton (en double). On cherche à mettre en place un menu avec `popover`.
 
@@ -207,4 +208,3 @@ Recherchez sur le site https://developer.mozilla.org/fr/ les pages de documentat
 
 N'oubliez pas de Push et publier sur Netlify (URL (publique) du site à mettre en haut).
 
-transcendent-begonia-fdd33f.netlify.app
