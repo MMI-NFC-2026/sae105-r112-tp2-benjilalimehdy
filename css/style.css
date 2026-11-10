@@ -1,44 +1,66 @@
 /* --- menu (popover plein écran) ------------------------------------------ */
+/* Le sélecteur .menu cible les éléments qui ont class="menu" dans le HTML.
+   Le navigateur a déjà fixé le popover à l'écran (position: fixed; inset: 0) :
+   on l'étire seulement, sans le positionner. */
 .menu {
-  width: 100%;
-  height: 100%;
-  border: 0;
+  width: 100%;   /* largeur : 100 % du parent */
+  height: 100%;  /* hauteur : 100 % du parent */
+  border: 0;     /* pas de bord (épaisseur 0) */
+
+  /* Transitions de 400 ms. allow-discrete autorise aussi la transition des propriétés
+     à valeurs « discrètes », comme display qui passe de none à block sans valeur intermédiaire. */
   transition: 400ms allow-discrete;
-  opacity: 0;
+  opacity: 0;    /* au départ, le menu est transparent */
 }
 
-/* Page figée tant que le menu est ouvert */
+/* La page est figée tant que le menu est ouvert.
+   html est la racine du document. :has() teste un élément enfant :
+   c'est le seul moyen en CSS de faire remonter l'état du menu jusqu'à la page.
+   overflow: hidden empêche de faire défiler la page derrière le menu. */
 html:has(.menu:popover-open) {
   overflow: hidden;
 }
 
 /* --- burger ---------------------------- */
+/* cursor change l'apparence du curseur : une main au survol du bouton. */
 .burger {
   cursor: pointer;
 }
 
+/* --- fondu du menu ---------------------------- */
+/* :popover-open correspond au popover quand il est ouvert.
+   L'opacité passe à 1, et la transition la fait changer progressivement. */
 .menu:popover-open {
   opacity: 1;
 }
 
+/* @starting-style donne le style de départ de l'animation.
+   Sans lui, il n'y aurait pas d'animation, car le menu était en display: none. */
 @starting-style {
   .menu:popover-open {
     opacity: 0;
   }
 }
 
-/* À l'ouverture, même position « hamburger » */
+/* --- rotation du bouton de fermeture ---------------------------- */
+/* À l'ouverture, le bouton part de la même position « hamburger » (sans rotation). */
 @starting-style {
   .menu:popover-open .burger--close {
     transform: none;
   }
 }
 
+/* Sélecteur imbriqué (parent␣enfant) : le bouton .burger--close à l'intérieur
+   du menu ouvert tourne de 90° en 400 ms. */
 .menu:popover-open .burger--close {
   transform: rotate(90deg);
   transition: 400ms;
 }
 
+/* --- préférences de mouvement ---------------------------- */
+/* Cette media query désactive les transitions si l'utilisateur a demandé
+   à réduire les animations dans son système.
+   La virgule regroupe deux sélecteurs dans la même règle. */
 @media (prefers-reduced-motion: reduce) {
   .menu,
   .menu .burger--close {
